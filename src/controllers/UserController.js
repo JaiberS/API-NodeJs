@@ -41,7 +41,17 @@ class userController {
 
     async deleteUser(req, res) {
         try {
-            res.send("deleting User")
+            const { id } = req.params;
+
+            if (!id || !validatorUtils.isValidUUID(id)) 
+                return res.status(400).json({ message: "not valid user ID" });
+
+            const { rows } = await pool.query(`DELETE * FROM users WHERE id = ${id} RETURNING *`);
+
+            if (rows && rows.length === 0) 
+                return res.status(404).json({ message: "User not found" });
+
+            res.status(204).send(rows[0]);
         } catch (error) {
             res.status(error.statusCode || 500).json({ status: 'error', response: error.message });
         }
