@@ -11,4 +11,4 @@ const pool = new pg.Pool({
     port
 });
 
-exports.modules = pool;
+module.exports = pool;
