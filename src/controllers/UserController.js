@@ -1,3 +1,5 @@
+const { pool } = require('../db');
+
 class userController {
 
     async getUser(req, res) {
